@@ -45,8 +45,11 @@ class Mailbox
     if (options[:read].present? and options[:read]==false) or (options[:unread].present? and options[:unread]==true)
       conv = conv.unread(@messageable)
     end
-
-    return conv.uniq
+    if Rails::VERSION::STRING.to_f < 3.2
+      return conv.uniq
+    else
+      return conv
+    end
   end
 
   #Returns the conversations in the inbox of messageable
